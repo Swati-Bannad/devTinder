@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start" : "node src/app.js",
-    "dev" : "nodemon src/api.js"
+    "start" : "node src/middleware.js",
+    "dev" : "nodemon src/middleware.js"
   },
   "author": "",
   "license": "ISC",
