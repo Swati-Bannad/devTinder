@@ -44,16 +44,28 @@ app.delete("/user", async (req,res) => {
 });
 
 //creating update API with  ID
-app.patch("/user" , async (req,res) => {
-    const userId = req.body._id;
-    const emailId = req.body.email;
-    const updateduser = await User.findByIdAndUpdate(userId, {email: emailId});
-
+app.patch("/user/:userId" , async (req, res) => {
+    const userId = req.params?.userId;
+    const data = req.body;
+    
     try {
-        res.send(updateduser);
+        const allowed_updates = [
+            "firstName",
+            "age", 
+            "gender"
+        ];
+        const isupdateallowed = Object.keys(data).every((k) => 
+            allowed_updates.includes(k)
+        );
+        console.log(isupdateallowed);
+        if (!isupdateallowed) {
+            throw new Error("not allowed to update the field");
+        }
+        const updateduser = await User.findByIdAndUpdate({_id: userId}, data);
+        res.send("updated");
     }
-    catch {
-        res.status(400).send("problem in getting matching user")
+    catch(err) {
+        res.status(400).send("could not update: " + err.message);
     }
 });
 
@@ -68,8 +80,8 @@ app.patch("/user" , async (req,res) => {
 //     try {
 //         res.send(updateduser);
 //     }
-//     catch {
-//         res.status(400).send("problem in getting matching user")
+//     catch(err) {
+//         res.status(400).send("problem in getting matching user" + err.message);
 //     }
 // });
 
@@ -80,10 +92,10 @@ app.post("/signup", async (req, res) => {
 
     try {
         await doc.save();
-        res.send("first user signed up")
+        res.send("first user signed up");
     }
-    catch {
-        res.status(400).send("problem in signing in!!!")
+    catch(err) {
+        res.status(400).send("Error savng the user" + err.message);
     }
 })
 
