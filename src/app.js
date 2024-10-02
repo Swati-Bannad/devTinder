@@ -105,5 +105,5 @@ connectDb().then(() => {
         console.log("server lstening to 7771");
     });
 }).catch(() => {
-    console.log("can ot connect to DB")
+    console.log("can not connect to DB")
 });

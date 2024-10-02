@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema( {
 
@@ -47,6 +48,14 @@ const userSchema = new mongoose.Schema( {
     timestamps : true,
 },
 );
+
+// userSchema.methods.getJWT = function () {
+//     const matchinguser = this;
+//     const token = jwt.sign({_id: matchinguser._id}, "jwttokentest");
+    
+//     return token;
+// }
+
 
 const Userpassword = mongoose.model("Userpassword" , userSchema);
 
