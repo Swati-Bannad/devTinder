@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { Userpassword } = require("../model/userpassword");
 
 // const adminAuth = (req, res, next) => {
 //     const token ="abc";
@@ -27,6 +28,14 @@ const userAuth = async (req, res, next) => {
         throw new Error("Token is not Valid!!!")
      }
      const decodedmsg = await jwt.verify(token, 'jwttokentest');
+     const {_id} = decodedmsg;
+     const userpassword = await Userpassword.findById(_id);
+    //  console.log(_id);
+    //  console.log(userpassword);
+     if(!userpassword){
+        throw new error("user not found")
+     }
+     req.userpassword = userpassword;
      next();
     }
 
